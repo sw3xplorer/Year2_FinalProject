@@ -1,0 +1,14 @@
+Start skärm
+1. Skapa en start skärm
+Done
+Misc: lägga en bakgrund
+
+Spelare
+1. Skapa spelaren + textur och hitbox
+2. Ge kontroll till spelaren
+
+Enviroment
+1. Lägg till gravitation
+2. Skapa platformer och terräng för spelaren att stå på
+    Kolla om hitboxen av spelaren kolliderar med det för att spelaren inte ska åka igenom.
+

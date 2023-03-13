@@ -1,0 +1,22 @@
+Project (name goes here)
+
+Psuedo kod
+
+Platformer spel
+Start screen, spel, win screen, game over screen
+
+Spelare
+    Kunna röra sig vänster, höger och kunna hoppa (if satster för att kolla knappar)
+        behöver någon form av gravitation som drar ner karaktären
+
+En bana eller banor med olika hinder som man ska klara av
+Puzzlar?
+
+Fiender som försöker döda karaktären
+    Delade en annan klass från spelaren
+
+Spelaren ska ha vapen som den kan döda fienderna med
+    Behöver skapa en hitbox för vapnet, spelaren och fienden så att man vet vad som nuddar vad
+    
+Kistor som innehåller items som uppgraderingar eller hp   
+    En slumpgenerator som slumpar fram en ny item
