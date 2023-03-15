@@ -1,7 +1,10 @@
 ﻿global using Raylib_cs;
 string currentScene = "start";
-Raylib.InitWindow(1366, 768, "Insert name here");
+// public List<Texture2D> backgrounds = new() {  }
+Raylib.InitWindow(1370, 770, "Insert name here");
 Raylib.SetTargetFPS(60);
+Player player = new Player();
+Platforms platforms = new Platforms();
 
 while (!Raylib.WindowShouldClose())
 {
@@ -12,22 +15,30 @@ while (!Raylib.WindowShouldClose())
     if (currentScene == "start")
     {
         Text.StartText();
-        
     }
 
     else if (currentScene == "game")
     {
-
+        player.Character();
+        platforms.DrawPlatform();
     }
 
-
     Raylib.EndDrawing();
+
     //Logic
 
     if (currentScene == "start")
     {
-        currentScene = Input.EnterToStart(currentScene);
+        if (Raylib.IsKeyDown(KeyboardKey.KEY_ENTER))
+        {
+            currentScene = "game";
+        }
     }
 
+    else if (currentScene == "game")
+    {
+        player.Controls();
+        player.CheckCollision(platforms);
+    }
 
 }

@@ -4,8 +4,8 @@ Done
 Misc: lägga en bakgrund
 
 Spelare
-1. Skapa spelaren + textur och hitbox
-2. Ge kontroll till spelaren
+1. Skapa spelaren + textur och hitbox (done)
+2. Ge kontroll till spelaren (vänster höger, jump)
 
 Enviroment
 1. Lägg till gravitation
