@@ -20,7 +20,7 @@ while (!Raylib.WindowShouldClose())
     else if (currentScene == "game")
     {
         player.Character();
-        platforms.DrawPlatform();
+        platforms.DrawPlatforms();
     }
 
     Raylib.EndDrawing();

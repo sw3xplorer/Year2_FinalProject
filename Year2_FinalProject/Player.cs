@@ -1,16 +1,21 @@
 public class Player
 {
-    Texture2D facing = Raylib.LoadTexture("avatarR.png");
+
     float speed = 5;
-    float gravity = 9;
-    Color clear = new Color (255, 255, 255, 0);
+    float velocity;
+    float force = 20;
+    float gravity = 0.98f;
+    bool onGround;
+    bool playerJump;
+    Color clear = new Color(255, 255, 255, 0);
+    Texture2D facing = Raylib.LoadTexture("avatarR.png");
     Texture2D avatarR = Raylib.LoadTexture("avatarR.png");
     Texture2D avatarL = Raylib.LoadTexture("avatarL.png");
     Rectangle playerRect;
 
     public Player()
     {
-        playerRect = new Rectangle(0, 0, avatarR.width, avatarR.height);
+        playerRect = new Rectangle(0, 0, avatarR.width, avatarR.height - 5);
     }
 
     public void Character()
@@ -33,7 +38,7 @@ public class Player
         }
         else
         {
-             Raylib.DrawTexture(facing, (int)playerRect.x, (int)playerRect.y, Color.WHITE);
+            Raylib.DrawTexture(facing, (int)playerRect.x, (int)playerRect.y, Color.WHITE);
         }
     }
     public void Controls()
@@ -42,22 +47,34 @@ public class Player
         {
             playerRect.x += speed;
         }
-        else if(Raylib.IsKeyDown(KeyboardKey.KEY_A))
+        else if (Raylib.IsKeyDown(KeyboardKey.KEY_A))
         {
             playerRect.x -= speed;
         }
-        
+
+        if (Raylib.IsKeyPressed(KeyboardKey.KEY_W) && playerJump && onGround)
+        {
+            velocity = -force;
+            playerJump = false;
+        }
+
+        velocity += gravity;
+        playerRect.y += velocity;
+
     }
 
     public void CheckCollision(Platforms p)
     {
-        if(Raylib.CheckCollisionRecs(playerRect, p.platform))
+        foreach (Rectangle platform in p.test)
         {
-            playerRect.y += 0;
-        }
-        else 
-        {
-            playerRect.y += gravity;
+
+            if (Raylib.CheckCollisionRecs(playerRect, platform))
+            {
+                playerRect.y = platform.y - playerRect.height;
+                velocity = 0;
+                playerJump = true;
+                onGround = true;
+            }
         }
     }
 }
