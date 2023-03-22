@@ -1,11 +1,10 @@
 public class Player
 {
-
-    float speed = 5;
-    float velocity;
+    Vector2 velocity = new Vector2(0,0);
+    Vector2 position = new Vector2(0,0);
     float force = 20;
     float gravity = 0.98f;
-    bool onGround;
+    float speed = 5;
     bool playerJump;
     Color clear = new Color(255, 255, 255, 0);
     Texture2D facing = Raylib.LoadTexture("avatarR.png");
@@ -43,39 +42,45 @@ public class Player
     }
     public void Controls()
     {
+        velocity.X = 0;
         if (Raylib.IsKeyDown(KeyboardKey.KEY_D))
         {
-            playerRect.x += speed;
+           velocity.X = speed;
         }
         else if (Raylib.IsKeyDown(KeyboardKey.KEY_A))
         {
-            playerRect.x -= speed;
+            velocity.X = -speed;
         }
 
-        if (Raylib.IsKeyPressed(KeyboardKey.KEY_W) && playerJump && onGround)
+        if (Raylib.IsKeyPressed(KeyboardKey.KEY_W) && playerJump)
         {
-            velocity = -force;
+            velocity.Y = -force;
             playerJump = false;
         }
-
-        velocity += gravity;
-        playerRect.y += velocity;
-
+        velocity.Y += gravity;
     }
 
     public void CheckCollision(Platforms p)
     {
         foreach (Rectangle platform in p.test)
         {
-
-            if (Raylib.CheckCollisionRecs(playerRect, platform))
+            if (Raylib.CheckCollisionRecs(new(playerRect.x, playerRect.y + velocity.Y, playerRect.width, playerRect.height), platform))
             {
-                // playerRect.y = platform.y - playerRect.height;
-                velocity = 0;
-                playerRect.y -= gravity;
-                playerJump = true;
-                onGround = true;
+                if(velocity.Y > 0)
+                {
+                    playerJump = true;
+                }
+                velocity.Y = 0;
             }
+            if (Raylib.CheckCollisionRecs(new(playerRect.x + velocity.X, playerRect.y, playerRect.width, playerRect.height-1), platform))
+            {
+                velocity.X = 0;
+            }
+
         }
+        playerRect.x += velocity.X;
+        playerRect.y += velocity.Y;
+
     }
+       
 }

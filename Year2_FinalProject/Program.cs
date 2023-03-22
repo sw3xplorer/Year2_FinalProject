@@ -1,4 +1,5 @@
 ﻿global using Raylib_cs;
+global using System.Numerics;
 string currentScene = "start";
 // public List<Texture2D> backgrounds = new() {  }
 Raylib.InitWindow(1370, 770, "Insert name here");
