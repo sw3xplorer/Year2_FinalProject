@@ -70,8 +70,9 @@ public class Player
 
             if (Raylib.CheckCollisionRecs(playerRect, platform))
             {
-                playerRect.y = platform.y - playerRect.height;
+                // playerRect.y = platform.y - playerRect.height;
                 velocity = 0;
+                playerRect.y -= gravity;
                 playerJump = true;
                 onGround = true;
             }
