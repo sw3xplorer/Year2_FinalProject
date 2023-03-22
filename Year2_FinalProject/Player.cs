@@ -10,7 +10,7 @@ public class Player
     Texture2D facing = Raylib.LoadTexture("avatarR.png");
     Texture2D avatarR = Raylib.LoadTexture("avatarR.png");
     Texture2D avatarL = Raylib.LoadTexture("avatarL.png");
-    Rectangle playerRect;
+    public Rectangle playerRect;
 
     public Player()
     {
@@ -82,5 +82,5 @@ public class Player
         playerRect.y += velocity.Y;
 
     }
-       
+    
 }

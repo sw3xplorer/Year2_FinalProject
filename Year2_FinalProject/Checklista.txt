@@ -8,6 +8,10 @@ Spelare
 
 Enviroment
 1. Lägg till gravitation (done)
-2. Skapa platformer och terräng för spelaren att stå på
+2. Skapa platformer och terräng för spelaren att stå på (done)
     Kolla om hitboxen av spelaren kolliderar med det för att spelaren inte ska åka igenom. (done)
 
+Enemies
+1. Skapa olika typer av fiender
+2. Placera ut spawnpoints för dem
+3. Gör så att de kan skada spelaren
