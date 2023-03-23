@@ -1,5 +1,6 @@
 public class Player
 {
+    
     Vector2 velocity = new Vector2(0,0);
     Vector2 position = new Vector2(0,0);
     float force = 20;
@@ -19,7 +20,7 @@ public class Player
 
     public void Character()
     {
-        Raylib.DrawRectangleRec(playerRect, Color.WHITE);
+        Raylib.DrawRectangleRec(playerRect, clear);
         LeftOrRight();
     }
 
@@ -60,7 +61,7 @@ public class Player
         velocity.Y += gravity;
     }
 
-    public void CheckCollision(Platforms p)
+    public void CheckCollisionPlat(Platforms p)
     {
         foreach (Rectangle platform in p.test)
         {

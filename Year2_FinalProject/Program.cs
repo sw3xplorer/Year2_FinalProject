@@ -1,12 +1,12 @@
 ﻿global using Raylib_cs;
 global using System.Numerics;
+Raylib.InitWindow(1370, 770, "Insert name here");
 string currentScene = "start";
 Camera2D camera = new(Vector2.Zero, Vector2.Zero, 0, 1);
 // public List<Texture2D> backgrounds = new() {  }
 Player player = new Player();
 Enemies enemies = new Enemies();
 
-Raylib.InitWindow(1370, 770, "Insert name here");
 Raylib.SetTargetFPS(60);
 Platforms platforms = new Platforms();
 
@@ -15,7 +15,7 @@ while (!Raylib.WindowShouldClose())
     //Graphics
     Raylib.BeginDrawing();
     Raylib.BeginMode2D(camera);
-    Raylib.ClearBackground(Color.WHITE);
+    Raylib.ClearBackground(Color.GRAY);
 
     if (currentScene == "start")
     {
@@ -44,7 +44,7 @@ while (!Raylib.WindowShouldClose())
     else if (currentScene == "game")
     {
         player.Controls();
-        player.CheckCollision(platforms);
+        player.CheckCollisionPlat(platforms);
     }
 
 
