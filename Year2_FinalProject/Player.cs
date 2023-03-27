@@ -61,7 +61,7 @@ public class Player
         velocity.Y += gravity;
     }
 
-    public void CheckCollisionPlat(Platforms p)
+    public void CheckCollision(Platforms p)
     {
         foreach (Rectangle platform in p.test)
         {
