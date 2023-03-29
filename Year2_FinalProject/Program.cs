@@ -4,9 +4,15 @@ Raylib.InitWindow(1370, 770, "Insert name here");
 string currentScene = "start";
 Camera2D camera = new(Vector2.Zero, Vector2.Zero, 0, 1);
 // public List<Texture2D> backgrounds = new() {  }
+List <Slimes> slimes = new();
+for(int i = 0; i < 3; i++)
+{
+    Slimes slime = new Slimes();
+    slimes.Add(new());
+}
 Player player = new Player();
 Enemies enemies = new Enemies();
-Slimes slime = new Slimes();
+
 
 Raylib.SetTargetFPS(60);
 Platforms platforms = new Platforms();
@@ -25,7 +31,10 @@ while (!Raylib.WindowShouldClose())
     else if (currentScene == "game")
     {
         player.Character();
-        slime.Draw();
+        for (int i = 0; i < slimes.Count(); i++)
+        {
+            slimes[i].Draw();
+        }
         camera.target = new(player.playerRect.x - (Raylib.GetScreenWidth() / 2), player.playerRect.y - (Raylib.GetScreenHeight() / 2));
         platforms.DrawPlatforms();
     }
@@ -46,8 +55,12 @@ while (!Raylib.WindowShouldClose())
     {
         player.Controls();
         player.CheckCollision(platforms);
-        slime.Control(player);
-        slime.CheckCollision2(platforms);
+        for (int i = 0; i < slimes.Count(); i++)
+        {
+            slimes[i].Control(player);
+            slimes[i].CheckCollisions(platforms);
+            
+        }
     }
 
 
