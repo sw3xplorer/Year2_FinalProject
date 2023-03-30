@@ -4,15 +4,9 @@ Raylib.InitWindow(1370, 770, "Insert name here");
 string currentScene = "start";
 Camera2D camera = new(Vector2.Zero, Vector2.Zero, 0, 1);
 // public List<Texture2D> backgrounds = new() {  }
-List <Slimes> slimes = new();
-for(int i = 0; i < 3; i++)
-{
-    Slimes slime = new Slimes();
-    slimes.Add(new());
-}
+Slimes slimeList = new Slimes();
 Player player = new Player();
 Enemies enemies = new Enemies();
-
 
 Raylib.SetTargetFPS(60);
 Platforms platforms = new Platforms();
@@ -30,13 +24,15 @@ while (!Raylib.WindowShouldClose())
     }
     else if (currentScene == "game")
     {
+        Text.HUD(player);
         player.Character();
-        for (int i = 0; i < slimes.Count(); i++)
-        {
-            slimes[i].Draw();
-        }
+        slimeList.Draw();
         camera.target = new(player.playerRect.x - (Raylib.GetScreenWidth() / 2), player.playerRect.y - (Raylib.GetScreenHeight() / 2));
         platforms.DrawPlatforms();
+    }
+    else if (currentScene == "loss")
+    {
+        Raylib.ClearBackground(Color.BLACK);
     }
     Raylib.EndMode2D();
     Raylib.EndDrawing();
@@ -45,22 +41,16 @@ while (!Raylib.WindowShouldClose())
 
     if (currentScene == "start")
     {
-        if (Raylib.IsKeyDown(KeyboardKey.KEY_ENTER))
-        {
-            currentScene = "game";
-        }
+        if (Raylib.IsKeyDown(KeyboardKey.KEY_ENTER)) currentScene = "game";
     }
 
     else if (currentScene == "game")
     {
         player.Controls();
         player.CheckCollision(platforms);
-        for (int i = 0; i < slimes.Count(); i++)
-        {
-            slimes[i].Control(player);
-            slimes[i].CheckCollisions(platforms);
-            
-        }
+        player.EnemyCollision(slimeList);
+        slimeList.Collision(platforms, player);
+        if (player.hp == 0) currentScene = "loss";
     }
 
 

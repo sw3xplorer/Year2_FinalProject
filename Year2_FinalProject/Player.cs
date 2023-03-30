@@ -7,6 +7,8 @@ public class Player
     float gravity = 0.98f;
     float speed = 5;
     bool playerJump;
+    bool facingLeft = false;
+    public int hp = 10;
     Color clear = new Color(255, 255, 255, 0);
     Texture2D facing = Raylib.LoadTexture("avatarR.png");
     Texture2D avatarR = Raylib.LoadTexture("avatarR.png");
@@ -30,11 +32,13 @@ public class Player
         {
             Raylib.DrawTexture(avatarR, (int)playerRect.x, (int)playerRect.y, Color.WHITE);
             facing = avatarR;
+            facingLeft = false;
         }
         else if (Raylib.IsKeyDown(KeyboardKey.KEY_A))
         {
             Raylib.DrawTexture(avatarL, (int)playerRect.x, (int)playerRect.y, Color.WHITE);
             facing = avatarL;
+            facingLeft = true;
         }
         else
         {
@@ -43,7 +47,8 @@ public class Player
     }
     public void Controls()
     {
-        velocity.X = 0;
+        if (velocity.X > 0) velocity.X--;
+        else if (velocity.X < 0) velocity.X++;
         if (Raylib.IsKeyDown(KeyboardKey.KEY_D))
         {
            velocity.X = speed;
@@ -63,7 +68,7 @@ public class Player
 
     public void CheckCollision(Platforms p)
     {
-        foreach (Rectangle platform in p.test)
+        foreach (Rectangle platform in p.platformList)
         {
             if (Raylib.CheckCollisionRecs(new(playerRect.x, playerRect.y + velocity.Y, playerRect.width, playerRect.height), platform))
             {
@@ -82,6 +87,31 @@ public class Player
         playerRect.x += velocity.X;
         playerRect.y += velocity.Y;
 
+    }
+
+    public void EnemyCollision(Slimes slimes)
+    {
+        for (int i = 0; i < slimes.slimeList.Count(); i++)
+        {
+
+            if (Raylib.CheckCollisionRecs(playerRect, slimes.slimeList[i].rect))
+            {
+                if (facingLeft)
+                {
+                    velocity.X = slimes.slimeList[i].knockback.X;
+                }
+                else
+                {
+                    velocity.X = slimes.slimeList[i].knockback.X*-1;
+                }
+
+                velocity.Y = slimes.slimeList[i].knockback.Y;
+                playerRect.x += velocity.X;
+                playerRect.y += velocity.Y;
+                hp--;
+            }
+
+        }
     }
     
 }
