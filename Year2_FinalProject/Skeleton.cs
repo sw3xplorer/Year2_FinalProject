@@ -1,34 +1,36 @@
-public class Slime
+public class Skeleton
 {
     float gravity = 0.98f;
-    float speed = 3;
-    int force = 20;
+    float speed = 4;
+    int force = 15;
     Color clear = new Color(255, 255, 255, 0);
     Vector2 vel = new Vector2(0, 0);
     Vector2 pos = new Vector2(0, 0);
-    public Vector2 knockback = new Vector2(15, -15);
-    Texture2D sprite = Raylib.LoadTexture("slime.png");
-    public List<Rectangle> slimes = new();
+    public Vector2 knockback = new Vector2(20, -15);
+    Texture2D spriteL = Raylib.LoadTexture("skeletonL.png");
+    Texture2D spriteR = Raylib.LoadTexture("skeletonR.png");
+    public List<Rectangle> skeletons = new();
     public Rectangle rect;
-    bool jump = true;
-    bool airborne;
-    bool waiting = false;
-
+    bool jump;
     int jumpCooldown;
+    bool waiting;
 
-
-    public Slime(int x, int y)
+    public Skeleton(int x, int y)
     {
-        rect = new Rectangle(x, y, sprite.width, sprite.height);
+        rect = new Rectangle(x, y, spriteL.width, spriteL.height);
     }
-
-
-
 
     public void Draw()
     {
         Raylib.DrawRectangleRec(rect, clear);
-        Raylib.DrawTexture(sprite, (int)rect.x, (int)rect.y, Color.WHITE);
+        if (vel.X >= 0)
+        {
+            Raylib.DrawTexture(spriteR, (int)rect.x, (int)rect.y, Color.WHITE);
+        }
+        else if (vel.X <= 0)
+        {
+            Raylib.DrawTexture(spriteL, (int)rect.x, (int)rect.y, Color.WHITE);
+        }
     }
 
     public void Control(Player player)
@@ -36,20 +38,19 @@ public class Slime
         vel.X = 0;
         if (jumpCooldown > 0) jumpCooldown--;
 
-        if (vel.Y == 0 && !airborne && jumpCooldown == 0)
+        if (vel.Y == 0 && jump && jumpCooldown == 0 && Raylib.IsKeyPressed(KeyboardKey.KEY_W))
         {
             vel.Y = -force;
             jump = false;
-            airborne = true;
             waiting = false;
         }
 
-        if (rect.x < player.playerRect.x && airborne && jumpCooldown == 0)
+        if (rect.x < player.playerRect.x)
         {
             vel.X = speed;
         }
 
-        if (rect.x > player.playerRect.x && airborne && jumpCooldown == 0)
+        if (rect.x > player.playerRect.x)
         {
             vel.X = -speed;
         }
@@ -67,10 +68,9 @@ public class Slime
                 if (vel.Y > 0)
                 {
                     jump = true;
-                    airborne = false;
                     if (!waiting)
                     {
-                        jumpCooldown = 60;
+                        jumpCooldown = 480;
                         waiting = true;
                     }
                 }
@@ -84,5 +84,4 @@ public class Slime
         rect.x += vel.X;
         rect.y += vel.Y;
     }
-
 }

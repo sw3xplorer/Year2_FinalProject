@@ -3,13 +3,15 @@ global using System.Numerics;
 Raylib.InitWindow(1370, 770, "Insert name here");
 string currentScene = "start";
 Camera2D camera = new(Vector2.Zero, Vector2.Zero, 0, 1);
+
 // public List<Texture2D> backgrounds = new() {  }
 Slimes slimeList = new Slimes();
+Skeletons skeletonList = new Skeletons();
+Bats batList = new Bats();
 Player player = new Player();
-Enemies enemies = new Enemies();
+Platforms platforms = new Platforms();
 
 Raylib.SetTargetFPS(60);
-Platforms platforms = new Platforms();
 
 while (!Raylib.WindowShouldClose())
 {
@@ -26,7 +28,9 @@ while (!Raylib.WindowShouldClose())
     {
         Text.HUD(player);
         player.Character();
-        slimeList.Draw();
+        // slimeList.Draw();
+        // skeletonList.Draw();
+        batList.Draw();
         camera.target = new(player.playerRect.x - (Raylib.GetScreenWidth() / 2), player.playerRect.y - (Raylib.GetScreenHeight() / 2));
         platforms.DrawPlatforms();
     }
@@ -48,8 +52,10 @@ while (!Raylib.WindowShouldClose())
     {
         player.Controls();
         player.CheckCollision(platforms);
-        player.EnemyCollision(slimeList);
-        slimeList.Collision(platforms, player);
+        player.EnemyCollision(slimeList, skeletonList, batList);
+        // slimeList.Collision(platforms, player);
+        // skeletonList.Collision(platforms, player);
+        batList.Collision(platforms, player);
         if (player.hp == 0) currentScene = "loss";
     }
 

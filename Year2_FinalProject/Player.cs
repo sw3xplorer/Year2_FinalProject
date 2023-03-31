@@ -7,8 +7,7 @@ public class Player
     float gravity = 0.98f;
     float speed = 5;
     bool playerJump;
-    bool facingLeft = false;
-    public int hp = 10;
+    public int hp = 999999999;
     Color clear = new Color(255, 255, 255, 0);
     Texture2D facing = Raylib.LoadTexture("avatarR.png");
     Texture2D avatarR = Raylib.LoadTexture("avatarR.png");
@@ -32,13 +31,11 @@ public class Player
         {
             Raylib.DrawTexture(avatarR, (int)playerRect.x, (int)playerRect.y, Color.WHITE);
             facing = avatarR;
-            facingLeft = false;
         }
         else if (Raylib.IsKeyDown(KeyboardKey.KEY_A))
         {
             Raylib.DrawTexture(avatarL, (int)playerRect.x, (int)playerRect.y, Color.WHITE);
             facing = avatarL;
-            facingLeft = true;
         }
         else
         {
@@ -89,29 +86,68 @@ public class Player
 
     }
 
-    public void EnemyCollision(Slimes slimes)
+    public void EnemyCollision(Slimes slimes, Skeletons skeletons, Bats bats)
     {
-        for (int i = 0; i < slimes.slimeList.Count(); i++)
-        {
+        // for (int i = 0; i < slimes.slimeList.Count(); i++)
+        // {
 
-            if (Raylib.CheckCollisionRecs(playerRect, slimes.slimeList[i].rect))
+        //     if (Raylib.CheckCollisionRecs(playerRect, slimes.slimeList[i].rect))
+        //     {
+        //         if ((playerRect.x/2) > (slimes.slimeList[i].rect.x/2))
+        //         {
+        //             velocity.X = slimes.slimeList[i].knockback.X;
+        //         }
+        //         else
+        //         {
+        //             velocity.X = slimes.slimeList[i].knockback.X*-1;
+        //         }
+
+        //         velocity.Y = slimes.slimeList[i].knockback.Y;
+        //         playerRect.x += velocity.X;
+        //         playerRect.y += velocity.Y;
+        //         hp--;
+        //     }
+
+        // }
+
+        // for (int i = 0; i < skeletons.skeletonList.Count(); i++)
+        // {
+        //     if (Raylib.CheckCollisionRecs(playerRect, skeletons.skeletonList[i].rect))
+        //     {
+        //         if ((playerRect.x/2) > (skeletons.skeletonList[i].rect.x/2))
+        //         {
+        //             velocity.X = skeletons.skeletonList[i].knockback.X;
+        //         }
+        //         else
+        //         {
+        //             velocity.X = skeletons.skeletonList[i].knockback.X*-1;
+        //         }
+        //         velocity.Y = skeletons.skeletonList[i].knockback.Y;
+        //         playerRect.x += velocity.X;
+        //         playerRect.y += velocity.Y;
+        //         hp -= 3;
+        //     }
+        // }
+
+        for (int i = 0; i < bats.batList.Count(); i++)
+        {
+            if (Raylib.CheckCollisionRecs(playerRect, bats.batList[i].rect))
             {
-                if (facingLeft)
+                if ((playerRect.x/2) > (bats.batList[i].rect.x/2))
                 {
-                    velocity.X = slimes.slimeList[i].knockback.X;
+                    velocity.X = bats.batList[i].knockback.X;
                 }
                 else
                 {
-                    velocity.X = slimes.slimeList[i].knockback.X*-1;
+                    velocity.X = bats.batList[i].knockback.X*-1;
                 }
 
-                velocity.Y = slimes.slimeList[i].knockback.Y;
+                velocity.Y = bats.batList[i].knockback.Y;
                 playerRect.x += velocity.X;
                 playerRect.y += velocity.Y;
-                hp--;
+                hp -= 2;
             }
-
+            }
         }
     }
     
-}
