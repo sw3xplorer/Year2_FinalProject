@@ -1,10 +1,11 @@
 public class Skeleton
 {
     float gravity = 0.98f;
-    float speed = 4;
+    float speed = 1.5f;
     int force = 15;
+    public int hp = 20;
     Color clear = new Color(255, 255, 255, 0);
-    Vector2 vel = new Vector2(0, 0);
+    public Vector2 velocity = new Vector2(0, 0);
     Vector2 pos = new Vector2(0, 0);
     public Vector2 knockback = new Vector2(20, -15);
     Texture2D spriteL = Raylib.LoadTexture("skeletonL.png");
@@ -23,11 +24,11 @@ public class Skeleton
     public void Draw()
     {
         Raylib.DrawRectangleRec(rect, clear);
-        if (vel.X >= 0)
+        if (velocity.X >= 0)
         {
             Raylib.DrawTexture(spriteR, (int)rect.x, (int)rect.y, Color.WHITE);
         }
-        else if (vel.X <= 0)
+        else if (velocity.X <= 0)
         {
             Raylib.DrawTexture(spriteL, (int)rect.x, (int)rect.y, Color.WHITE);
         }
@@ -35,37 +36,40 @@ public class Skeleton
 
     public void Control(Player player)
     {
-        vel.X = 0;
+        if (velocity.X > 0) velocity.X--;
+        else if (velocity.X < 0) velocity.X++;
+
+
         if (jumpCooldown > 0) jumpCooldown--;
 
-        if (vel.Y == 0 && jump && jumpCooldown == 0 && Raylib.IsKeyPressed(KeyboardKey.KEY_W))
+        if (velocity.Y == 0 && jump && jumpCooldown == 0 && Raylib.IsKeyPressed(KeyboardKey.KEY_W))
         {
-            vel.Y = -force;
+            velocity.Y = -force;
             jump = false;
             waiting = false;
         }
 
         if (rect.x < player.playerRect.x)
         {
-            vel.X = speed;
+            velocity.X = speed;
         }
 
         if (rect.x > player.playerRect.x)
         {
-            vel.X = -speed;
+            velocity.X = -speed;
         }
-        vel.Y += gravity;
+        velocity.Y += gravity;
     }
 
     public void CheckCollisions(Platforms p)
     {
         foreach (Rectangle platform in p.platformList)
         {
-            if (Raylib.CheckCollisionRecs(new(rect.x, rect.y + vel.Y, rect.width, rect.height), platform))
+            if (Raylib.CheckCollisionRecs(new(rect.x, rect.y + velocity.Y, rect.width, rect.height), platform))
             {
 
 
-                if (vel.Y > 0)
+                if (velocity.Y > 0)
                 {
                     jump = true;
                     if (!waiting)
@@ -74,14 +78,14 @@ public class Skeleton
                         waiting = true;
                     }
                 }
-                vel.Y = 0;
+                velocity.Y = 0;
             }
-            if (Raylib.CheckCollisionRecs(new(rect.x + vel.X, rect.y, rect.width, rect.height - 1), platform))
+            if (Raylib.CheckCollisionRecs(new(rect.x + velocity.X, rect.y, rect.width, rect.height - 1), platform))
             {
-                vel.X = 0;
+                velocity.X = 0;
             }
         }
-        rect.x += vel.X;
-        rect.y += vel.Y;
+        rect.x += velocity.X;
+        rect.y += velocity.Y;
     }
 }

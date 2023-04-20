@@ -10,6 +10,7 @@ Skeletons skeletonList = new Skeletons();
 Bats batList = new Bats();
 Player player = new Player();
 Platforms platforms = new Platforms();
+Weapon sword = new Weapon(player);
 
 Raylib.SetTargetFPS(60);
 
@@ -27,12 +28,14 @@ while (!Raylib.WindowShouldClose())
     else if (currentScene == "game")
     {
         Text.HUD(player);
-        player.Character();
+        player.Draw();
+        sword.Draw(player);
         // slimeList.Draw();
         // skeletonList.Draw();
-        batList.Draw();
+        // batList.Draw();
         camera.target = new(player.playerRect.x - (Raylib.GetScreenWidth() / 2), player.playerRect.y - (Raylib.GetScreenHeight() / 2));
         platforms.DrawPlatforms();
+        
     }
     else if (currentScene == "loss")
     {
@@ -51,13 +54,15 @@ while (!Raylib.WindowShouldClose())
     else if (currentScene == "game")
     {
         player.Controls();
-        player.CheckCollision(platforms);
-        player.EnemyCollision(slimeList, skeletonList, batList);
+        player.CheckCollision(platforms, sword);
+        player.EnemyCollision(slimeList, skeletonList, batList, sword);
         // slimeList.Collision(platforms, player);
         // skeletonList.Collision(platforms, player);
-        batList.Collision(platforms, player);
+        // batList.Collision(platforms, player);
+        sword.Collision(slimeList, skeletonList, batList, player);
         if (player.hp == 0) currentScene = "loss";
     }
 
 
 }
+

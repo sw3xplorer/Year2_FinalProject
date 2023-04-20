@@ -3,8 +3,9 @@ public class Slime
     float gravity = 0.98f;
     float speed = 3;
     int force = 20;
+    public int hp = 10;
     Color clear = new Color(255, 255, 255, 0);
-    Vector2 vel = new Vector2(0, 0);
+    public Vector2 velocity = new Vector2(0, 0);
     Vector2 pos = new Vector2(0, 0);
     public Vector2 knockback = new Vector2(15, -15);
     Texture2D sprite = Raylib.LoadTexture("slime.png");
@@ -27,18 +28,19 @@ public class Slime
 
     public void Draw()
     {
-        Raylib.DrawRectangleRec(rect, clear);
+        Raylib.DrawRectangleRec(rect, Color.RED);
         Raylib.DrawTexture(sprite, (int)rect.x, (int)rect.y, Color.WHITE);
     }
 
     public void Control(Player player)
     {
-        vel.X = 0;
+        if (velocity.X > 0) velocity.X--;
+        else if (velocity.X < 0) velocity.X++;
         if (jumpCooldown > 0) jumpCooldown--;
 
-        if (vel.Y == 0 && !airborne && jumpCooldown == 0)
+        if (velocity.Y == 0 && !airborne && jumpCooldown == 0)
         {
-            vel.Y = -force;
+            velocity.Y = -force;
             jump = false;
             airborne = true;
             waiting = false;
@@ -46,25 +48,25 @@ public class Slime
 
         if (rect.x < player.playerRect.x && airborne && jumpCooldown == 0)
         {
-            vel.X = speed;
+            velocity.X = speed;
         }
 
         if (rect.x > player.playerRect.x && airborne && jumpCooldown == 0)
         {
-            vel.X = -speed;
+            velocity.X = -speed;
         }
-        vel.Y += gravity;
+        velocity.Y += gravity;
     }
 
     public void CheckCollisions(Platforms p)
     {
         foreach (Rectangle platform in p.platformList)
         {
-            if (Raylib.CheckCollisionRecs(new(rect.x, rect.y + vel.Y, rect.width, rect.height), platform))
+            if (Raylib.CheckCollisionRecs(new(rect.x, rect.y + velocity.Y, rect.width, rect.height), platform))
             {
 
 
-                if (vel.Y > 0)
+                if (velocity.Y > 0)
                 {
                     jump = true;
                     airborne = false;
@@ -74,15 +76,15 @@ public class Slime
                         waiting = true;
                     }
                 }
-                vel.Y = 0;
+                velocity.Y = 0;
             }
-            if (Raylib.CheckCollisionRecs(new(rect.x + vel.X, rect.y, rect.width, rect.height - 1), platform))
+            if (Raylib.CheckCollisionRecs(new(rect.x + velocity.X, rect.y, rect.width, rect.height - 1), platform))
             {
-                vel.X = 0;
+                velocity.X = 0;
             }
         }
-        rect.x += vel.X;
-        rect.y += vel.Y;
+        rect.x += velocity.X;
+        rect.y += velocity.Y;
     }
 
 }

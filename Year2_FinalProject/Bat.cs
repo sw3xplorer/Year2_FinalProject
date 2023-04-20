@@ -1,8 +1,9 @@
 public class Bat
 {
     float speed = 2;
+    public int hp = 5;
     Color clear = new Color(255, 255, 255, 0);
-    Vector2 vel = new Vector2(0, 0);
+    public Vector2 velocity = new Vector2(0, 0);
     Vector2 pos = new Vector2(0, 0);
     public Vector2 knockback = new Vector2(5, -5);
     Texture2D spriteL = Raylib.LoadTexture("batL.png");
@@ -18,11 +19,11 @@ public class Bat
     public void Draw()
     {
         Raylib.DrawRectangleRec(rect, clear);
-        if (vel.X >= 0)
+        if (velocity.X >= 0)
         {
             Raylib.DrawTexture(spriteR, (int)rect.x, (int)rect.y, Color.WHITE);
         }
-        else if (vel.X <= 0)
+        else if (velocity.X <= 0)
         {
             Raylib.DrawTexture(spriteL, (int)rect.x, (int)rect.y, Color.WHITE);
         }
@@ -30,26 +31,26 @@ public class Bat
 
     public void Control(Player player)
     {
-        if (vel.X > 0) vel.X--;
-        else if (vel.X < 0) vel.X++;
-
+        if (velocity.X > 0) velocity.X--;
+        else if (velocity.X < 0) velocity.X++;
+        
         if (rect.x/2 < player.playerRect.x/2)
         {
-            vel.X = speed;
+            velocity.X = speed;
         }
 
         else if (rect.x/2 > player.playerRect.x/2)
         {
-            vel.X = -speed;
+            velocity.X = -speed;
         }
 
         if (rect.y/2 < player.playerRect.y/2)
         {
-            vel.Y = speed;
+            velocity.Y = speed;
         }
         else if (rect.y/2 > player.playerRect.y/2)
         {
-            vel.Y = -speed;
+            velocity.Y = -speed;
         }
     }
 
@@ -57,17 +58,17 @@ public class Bat
     {
         foreach (Rectangle platform in p.platformList)
         {
-            if (Raylib.CheckCollisionRecs(new(rect.x, rect.y + vel.Y, rect.width, rect.height), platform))
+            if (Raylib.CheckCollisionRecs(new(rect.x, rect.y + velocity.Y, rect.width, rect.height), platform))
             {
-                vel.Y = 0;
+                velocity.Y = 0;
             }
-            if (Raylib.CheckCollisionRecs(new(rect.x + vel.X, rect.y, rect.width, rect.height - 1), platform))
+            if (Raylib.CheckCollisionRecs(new(rect.x + velocity.X, rect.y, rect.width, rect.height - 1), platform))
             {
-                vel.X = 0;
+                velocity.X = 0;
             }
         }
-        rect.x += vel.X;
-        rect.y += vel.Y;
+        rect.x += velocity.X;
+        rect.y += velocity.Y;
     }
 }
 

@@ -8,8 +8,7 @@ public class Text
 
     public static void HUD(Player stats)
     {
-        Raylib.DrawText($"{stats.hp}", 0, 0, 39, Color.BLACK);
-        
+        Raylib.DrawText($"Life: {stats.hp}", (int)stats.playerRect.x - (Raylib.GetScreenWidth() / 2)+25, (int)stats.playerRect.y - (Raylib.GetScreenHeight() / 2)+25, 39, Color.RED);
     }
 
 }
