@@ -7,7 +7,7 @@ public class Skeleton
     Color clear = new Color(255, 255, 255, 0);
     public Vector2 velocity = new Vector2(0, 0);
     Vector2 pos = new Vector2(0, 0);
-    public Vector2 knockback = new Vector2(20, -15);
+    public Vector2 knockback = new Vector2(15, -15);
     Texture2D spriteL = Raylib.LoadTexture("skeletonL.png");
     Texture2D spriteR = Raylib.LoadTexture("skeletonR.png");
     public List<Rectangle> skeletons = new();
@@ -49,13 +49,31 @@ public class Skeleton
             waiting = false;
         }
 
-        if (rect.x < player.playerRect.x)
+        if (rect.x < player.playerRect.x && Raylib.CheckCollisionRecs(rect, player.detectionRect))
         {
-            velocity.X = speed;
+            if (velocity.X < 0)
+            {
+                velocity.X += 0.25f;
+            }
+            else
+            {
+                if (speed < 1.5f) speed++;
+                velocity.X = speed;
+            }
+            // velocity.X = speed;
         }
 
-        if (rect.x > player.playerRect.x)
+        if (rect.x > player.playerRect.x && Raylib.CheckCollisionRecs(rect, player.detectionRect))
         {
+            if (velocity.X > 0)
+            {
+                velocity.X -= 0.25f;
+            }
+            else
+            {
+                if (speed < 1.5f) speed++;
+                velocity.X = -speed;
+            }
             velocity.X = -speed;
         }
         velocity.Y += gravity;

@@ -2,12 +2,18 @@
 public class Slimes
 {
     public List<Slime> slimeList = new();
-
     public Slimes()
     {
-        slimeList.Add(new(100, 50));
-        slimeList.Add(new(400, 50));
-        slimeList.Add(new(900, 50));
+        slimeList.Add(new(1000, 325));
+        slimeList.Add(new(1050, 470));
+        slimeList.Add(new(1400, 270));
+        slimeList.Add(new(3200, 470));
+        slimeList.Add(new(3600, 470));
+        slimeList.Add(new(4350, 960));
+        slimeList.Add(new(4650, 960));
+        slimeList.Add(new(5000, 960));
+        slimeList.Add(new(5350, 960));
+        slimeList.Add(new(5650, 960));
     }
 
     public void Draw()

@@ -7,7 +7,7 @@ public class Slime
     Color clear = new Color(255, 255, 255, 0);
     public Vector2 velocity = new Vector2(0, 0);
     Vector2 pos = new Vector2(0, 0);
-    public Vector2 knockback = new Vector2(15, -15);
+    public Vector2 knockback = new Vector2(10, -15);
     Texture2D sprite = Raylib.LoadTexture("slime.png");
     public List<Rectangle> slimes = new();
     public Rectangle rect;
@@ -28,7 +28,7 @@ public class Slime
 
     public void Draw()
     {
-        Raylib.DrawRectangleRec(rect, Color.RED);
+        Raylib.DrawRectangleRec(rect, clear);
         Raylib.DrawTexture(sprite, (int)rect.x, (int)rect.y, Color.WHITE);
     }
 
@@ -38,7 +38,7 @@ public class Slime
         else if (velocity.X < 0) velocity.X++;
         if (jumpCooldown > 0) jumpCooldown--;
 
-        if (velocity.Y == 0 && !airborne && jumpCooldown == 0)
+        if (velocity.Y == 0 && !airborne && jumpCooldown == 0 && Raylib.CheckCollisionRecs(rect, player.detectionRect))
         {
             velocity.Y = -force;
             jump = false;
@@ -46,12 +46,12 @@ public class Slime
             waiting = false;
         }
 
-        if (rect.x < player.playerRect.x && airborne && jumpCooldown == 0)
+        if (rect.x < player.playerRect.x && airborne && jumpCooldown == 0 && Raylib.CheckCollisionRecs(rect, player.detectionRect))
         {
             velocity.X = speed;
         }
 
-        if (rect.x > player.playerRect.x && airborne && jumpCooldown == 0)
+        if (rect.x > player.playerRect.x && airborne && jumpCooldown == 0 && Raylib.CheckCollisionRecs(rect, player.detectionRect))
         {
             velocity.X = -speed;
         }

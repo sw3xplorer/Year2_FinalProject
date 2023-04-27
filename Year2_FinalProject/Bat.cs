@@ -1,11 +1,11 @@
 public class Bat
 {
-    float speed = 2;
+    float speed = 4;
     public int hp = 5;
     Color clear = new Color(255, 255, 255, 0);
     public Vector2 velocity = new Vector2(0, 0);
     Vector2 pos = new Vector2(0, 0);
-    public Vector2 knockback = new Vector2(5, -5);
+    public Vector2 knockback = new Vector2(8, -5);
     Texture2D spriteL = Raylib.LoadTexture("batL.png");
     Texture2D spriteR = Raylib.LoadTexture("batR.png");
     public List<Rectangle> bats = new();
@@ -31,24 +31,41 @@ public class Bat
 
     public void Control(Player player)
     {
+        velocity.X = 0;
+        velocity.Y = 0;
         if (velocity.X > 0) velocity.X--;
         else if (velocity.X < 0) velocity.X++;
-        
-        if (rect.x/2 < player.playerRect.x/2)
+
+        if (rect.x < player.playerRect.x && Raylib.CheckCollisionRecs(rect, player.detectionRect))
         {
-            velocity.X = speed;
+            if (velocity.X < 0)
+            {
+                velocity.X += 0.25f;
+            }
+            else
+            {
+                if (speed < 4) speed++;
+                velocity.X = speed;
+            }
         }
 
-        else if (rect.x/2 > player.playerRect.x/2)
+        else if (rect.x > player.playerRect.x && Raylib.CheckCollisionRecs(rect, player.detectionRect))
         {
-            velocity.X = -speed;
+           if (velocity.X > 0)
+            {
+                velocity.X -= 0.25f;
+            }
+            else
+            {
+                if (speed < 4) speed++;
+                velocity.X = -speed;
+            }
         }
-
-        if (rect.y/2 < player.playerRect.y/2)
+        if (rect.y < player.playerRect.y && Raylib.CheckCollisionRecs(rect, player.detectionRect))
         {
             velocity.Y = speed;
         }
-        else if (rect.y/2 > player.playerRect.y/2)
+        else if (rect.y > player.playerRect.y && Raylib.CheckCollisionRecs(rect, player.detectionRect))
         {
             velocity.Y = -speed;
         }
@@ -70,5 +87,6 @@ public class Bat
         rect.x += velocity.X;
         rect.y += velocity.Y;
     }
+   
 }
 

@@ -3,7 +3,7 @@ public class Weapon
     Color clear = new Color(255, 255, 255, 0);
     Texture2D sprite = Raylib.LoadTexture("Gladius.png");
     Vector2 origin = new Vector2(9.5f, 58);
-    Vector2 knockback = new Vector2(20, -10);
+    Vector2 knockback = new Vector2(25, -10);
     int timer = 0;
     int dmg = 3;
     public float rotation;
@@ -19,7 +19,7 @@ public class Weapon
         if (Raylib.IsKeyPressed(KeyboardKey.KEY_E) && !direction.left && timer == 0 || (Raylib.IsKeyPressed(KeyboardKey.KEY_E) && direction.left && timer == 0))
         {  
             rotation = 0;
-            timer = 120;
+            timer = 12;
             swing = true;
         }
 
@@ -27,7 +27,7 @@ public class Weapon
         {
             rect.x = direction.playerRect.x + direction.playerRect.width-5;
             rotation += 15;
-            Raylib.DrawRectangleRec(rect, Color.BLUE);
+            Raylib.DrawRectangleRec(rect, clear);
             Raylib.DrawTexturePro(sprite, new(0,0, sprite.width, sprite.height), rect, origin, rotation, Color.WHITE);
             timer--;
             if (timer == 0) swing = false;
@@ -37,8 +37,8 @@ public class Weapon
         {
             rect.x = direction.playerRect.x-25;
             rotation -= 15;
-            Raylib.DrawRectangleRec(rect, Color.BLUE);
-            Raylib.DrawTexturePro(sprite, new(0,0, sprite.width, sprite.height), new Rectangle(direction.playerRect.x-5, direction.playerRect.y+18, 30, sprite.height+10), origin, rotation, Color.WHITE);
+            Raylib.DrawRectangleRec(rect, clear);
+            Raylib.DrawTexturePro(sprite, new(0,0, sprite.width, sprite.height), new Rectangle(direction.playerRect.x, direction.playerRect.y+18, 30, sprite.height+10), origin, rotation, Color.WHITE);
             timer--;
             if (timer == 0) swing = false;
         }
@@ -63,7 +63,6 @@ public class Weapon
                 slimes.slimeList[i].velocity.Y = knockback.Y;
 
                 contact = true;
-                Console.WriteLine("HIT");
 
                 slimes.slimeList[i].rect.x += slimes.slimeList[i].velocity.X;
                 slimes.slimeList[i].rect.y += slimes.slimeList[i].velocity.Y;
@@ -97,7 +96,6 @@ public class Weapon
                 skeletons.skeletonList[i].velocity.Y = knockback.Y;
 
                 contact = true;
-                Console.WriteLine("HIT");
 
                 skeletons.skeletonList[i].rect.x += skeletons.skeletonList[i].velocity.X;
                 skeletons.skeletonList[i].rect.y += skeletons.skeletonList[i].velocity.Y;
@@ -115,7 +113,6 @@ public class Weapon
 
         }
 
-
         for (int i = 0; i < bats.batList.Count(); i++)
         {   
 
@@ -125,14 +122,13 @@ public class Weapon
 
                 if (facing.left)
                 {
-                    bats.batList[i].velocity.X = knockback.X*-1;
+                    bats.batList[i].velocity.X = knockback.X* 5 * -1;
                 }
-                else bats.batList[i].velocity.X = knockback.X;
+                else bats.batList[i].velocity.X = knockback.X * 5;
 
                 bats.batList[i].velocity.Y = knockback.Y;
 
                 contact = true;
-                Console.WriteLine("HIT");
 
                 bats.batList[i].rect.x += bats.batList[i].velocity.X;
                 bats.batList[i].rect.y += bats.batList[i].velocity.Y;

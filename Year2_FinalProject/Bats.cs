@@ -4,9 +4,13 @@ public class Bats
 
     public Bats()
     {
-        batList.Add(new(100, 20));
-        batList.Add(new(400, 20));
-        batList.Add(new(900, 20));
+        batList.Add(new(3200, 300));
+        //4300-5800 x 1000 y
+
+        batList.Add(new(4500, 350));
+        batList.Add(new(4800, 350));
+        batList.Add(new(5200, 500));
+        batList.Add(new(5700, 650));
     }
 
     public void Draw()

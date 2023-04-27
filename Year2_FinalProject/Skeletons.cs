@@ -4,9 +4,12 @@ public class Skeletons
 
     public Skeletons()
     {
-        skeletonList.Add(new(500, 50));
-        skeletonList.Add(new(700, 50));
-        skeletonList.Add(new(1100, 50));
+        skeletonList.Add(new(2300, 410));
+        skeletonList.Add(new(3600, 250));
+        skeletonList.Add(new(4500, 920));
+        skeletonList.Add(new(5150, 920));
+        skeletonList.Add(new(5700, 920));
+
     }
 
     public void Draw()
